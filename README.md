@@ -77,3 +77,8 @@ The total reward function is:
 r=λ⋅r_bleu+γ⋅r_topic_cv+η⋅r_topic_cl
 
 where lambda, gamma, and eta are hyper-parameters controlling the weights of each reward component. This reward function aims to optimize both the narrative coherence and alignment of visual and language content in generated stories.
+
+## Results
+After running the model you will get the final story which is then evaluated against the ground truth. We compute some scores such as Rouge score, Meteor score and Cider score.
+
+
