@@ -80,6 +80,8 @@ where lambda, gamma, and eta are hyper-parameters controlling the weights of eac
 
 ## Results
 After running the model you will get the final story which is then evaluated against the ground truth. We compute some scores such as Rouge score, Meteor score and Cider score.
+
+
 ![Screenshot 2024-11-13 230158](https://github.com/user-attachments/assets/cb1b9fb9-903e-4832-b987-230dfbe58ff6)
 
 
