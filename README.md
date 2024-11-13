@@ -37,6 +37,8 @@ written to form a coherent narrative
 ### Making captions from images
 The first step in our methodology is generating captions for images using the BLIP (Bootstrapped Language-Image Pre-training) model, a pre-trained language-image model by Salesforce. We begin by loading and processing images through the BLIP processor, which converts them to RGB format, creates input tensors, and passes these tensors to the BLIP model to generate captions. These captions are decoded to provide an initial textual description of the images. To improve performance on our specific dataset, SSID, we fine-tune the BLIP model. A custom PyTorch dataset class is created to handle image-caption pairs, converting them into tensors for training. This fine-tuning is performed over multiple epochs, using a DataLoader to batch the data and an AdamW optimizer for parameter updates. During each iteration, the model calculates loss, backpropagates gradients, and updates parameters, enhancing its performance on the SSID dataset. The fine-tuned model is then used to generate captions for test images, expected to be more accurate and contextually relevant to the test set.
 
+![Fin-tuning Blip (1)](https://github.com/user-attachments/assets/96ee74c9-1bdc-44e1-9064-6345bd4daf96)
+
 
 ### Building a reward function
 
