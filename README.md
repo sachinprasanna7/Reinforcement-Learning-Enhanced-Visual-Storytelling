@@ -118,7 +118,7 @@ where lambda, gamma, and eta are hyper-parameters controlling the weights of eac
 
 
 ## Results
-After running the model you will get the final story which is then evaluated against the ground truth. We compute some scores such as Rouge score, Meteor score and Cider score.
+After running the model you will get the final story which is then evaluated against the ground truth. We compute some scores such as Rouge score, Meteor score.
 
 
 | Model                     | Rouge 1 | Rouge 2 | Rouge L | Meteor |
