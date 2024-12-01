@@ -13,6 +13,8 @@ The Visual Storytelling Task (VST) focuses on transforming a sequence of images 
 
 ## Dataset
 
+Link - https://ieee-dataport.org/documents/sequential-storytelling-image-dataset-ssid#files
+
 For this project, we employ the **Sequential Storytelling Image Dataset (SSID)**, introduced by Z. M. Malakan et al. in their work on Visual Storytelling [12]. The dataset is a collection of open-source video frames paired with story-like annotations. 
 
 ### Key Features of the Dataset:
