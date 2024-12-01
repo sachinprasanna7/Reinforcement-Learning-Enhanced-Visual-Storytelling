@@ -1,43 +1,81 @@
 # Reinforcement-Learning-Enhanced-Visual-Storytelling
 
+## Project By
+
+- **Sachin Prasanna** (211IT058)  
+- **Subhojit Karmakar** (211IT071)  
+- **Abhayjit Singh Gulati** (211IT085)  
+
+
 ## Problem Statement
 The Visual Storytelling Task (VST) focuses on transforming a sequence of images into coherent and contextually relevant textual narratives. The challenge is to generate a story that not only describes each image but also effectively captures the underlying connections between them, forming a unified and engaging narrative.
 
 
-## DATASET
+## Dataset
 
-For this project, we employ the Sequential Storytelling
-Image Dataset (SSID), introduced by Z. M. Malakan, et al.
-in their work on Visual Storytelling [12]. The dataset is a
-collection of open-source video frames paired with story-like
-annotations. Each sequence in SSID consists of five images,
-with four distinct story annotations provided per sequence. The
-images were manually selected from publicly available videos
-across three domains: documentaries, lifestyle, and movies,
-and were then annotated by human contributors via Amazon
-Mechanical Turk. Overall, the SSID dataset contains 17,365
-images, organized into 3,473 unique five-image sequences.
-Each sequence has four corresponding ground-truth stories,
-resulting in a total of 13,892 unique narrative annotations.
-Each story comprises five sequentially connected sentences,
-written to form a coherent narrative
+For this project, we employ the **Sequential Storytelling Image Dataset (SSID)**, introduced by Z. M. Malakan et al. in their work on Visual Storytelling [12]. The dataset is a collection of open-source video frames paired with story-like annotations. 
 
-## Dataset Structure
+### Key Features of the Dataset:
+- Each sequence in SSID consists of **five images**, with **four distinct story annotations** provided per sequence.  
+- The images were manually selected from publicly available videos across **three domains**:
+  - Documentaries
+  - Lifestyle
+  - Movies
+- The images were annotated by human contributors via **Amazon Mechanical Turk**.
 
-“Album_id1”: {
-	“Story_id1”:{
-		Image_id1: “”, storytext1 = “”, image_order = “”, ….
-},
-“Story_id2”:{ ….
-}
-},
+### Dataset Summary:
+- Total Images: **17,365**
+- Unique Sequences: **3,473** (each consisting of five images)
+- Ground-Truth Stories: **13,892 unique narrative annotations**
+- Each story consists of **five sequentially connected sentences** to form a coherent narrative.
+
+### Annotation Format:
+The dataset annotations are structured as follows:
+
+```json
+"annotations": [
+    {
+        "storylet_id": 5947,
+        "storytext": "Inside the car with his family he talks with enthusiasm.",
+        "youtube_image_id": "2036",
+        "album_id": 10891,
+        "story_id": 5947,
+        "image_order": 1
+    }
+]
+```
+
+
+## Dataset Structure after Organising
+
+The dataset followed a hierarchical structure after organising and restructring, which was what was used in our endevours:
+
+- **Album_id1**  
+  - **Story_id1**  
+    - `Image_id1`: `<Image Data>`  
+    - `storytext1`: `<Story Text>`  
+    - `image_order`: `<Order of the Image>`  
+    - ...  
+  - **Story_id2**  
+    - `<Similar structure as Story_id1>`  
+    - ...  
+
+- **Album_id2**  
+  - `<Similar structure as Album_id1>`  
+  - ...
+
+
 
 ## Methodology
+
+The overall methodology can be seen below:
+
+
 
 ### Making captions from images
 The first step in our methodology is generating captions for images using the BLIP (Bootstrapped Language-Image Pre-training) model, a pre-trained language-image model by Salesforce. We begin by loading and processing images through the BLIP processor, which converts them to RGB format, creates input tensors, and passes these tensors to the BLIP model to generate captions. These captions are decoded to provide an initial textual description of the images. To improve performance on our specific dataset, SSID, we fine-tune the BLIP model. A custom PyTorch dataset class is created to handle image-caption pairs, converting them into tensors for training. This fine-tuning is performed over multiple epochs, using a DataLoader to batch the data and an AdamW optimizer for parameter updates. During each iteration, the model calculates loss, backpropagates gradients, and updates parameters, enhancing its performance on the SSID dataset. The fine-tuned model is then used to generate captions for test images, expected to be more accurate and contextually relevant to the test set.
 
-![Fin-tuning Blip (1)](https://github.com/user-attachments/assets/96ee74c9-1bdc-44e1-9064-6345bd4daf96)
+![Methodology Diagram](methodology.png)
 
 
 ### Building a reward function
@@ -78,10 +116,17 @@ r=λ⋅r_bleu+γ⋅r_topic_cv+η⋅r_topic_cl
 
 where lambda, gamma, and eta are hyper-parameters controlling the weights of each reward component. This reward function aims to optimize both the narrative coherence and alignment of visual and language content in generated stories.
 
+
 ## Results
 After running the model you will get the final story which is then evaluated against the ground truth. We compute some scores such as Rouge score, Meteor score and Cider score.
 
 
-![Screenshot 2024-11-13 230158](https://github.com/user-attachments/assets/cb1b9fb9-903e-4832-b987-230dfbe58ff6)
+| Model                     | Rouge 1 | Rouge 2 | Rouge L | Meteor |
+|---------------------------|---------|---------|---------|--------|
+| Seq2Seq + attn. Baseline | 0.35    | 0.11    | 0.28    | 0.12   |
+| Pointer Generator         | 0.36    | 0.12    | 0.33    | 0.15   |
+| Lead 3 Baseline           | 0.40    | 0.17    | 0.36    | 0.20   |
+| **Our Model**             | **0.26** | **0.12** | **0.21** | **0.26** |
+
 
 
